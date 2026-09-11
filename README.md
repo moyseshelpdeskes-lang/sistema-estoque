@@ -33,3 +33,4 @@ alertas automáticos de estoque crítico.
 - [Requisitos](docs/requirements.md)
 - [Regras de negócio](docs/business-rules.md)
 - [Modelo de dados](docs/database.md)
+- [Decisões de arquitetura](docs/decisions/)
