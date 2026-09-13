@@ -14,7 +14,7 @@ class UserRepository:
 
     def _row_to_user(self, row: sqlite3.Row) -> User:
         return User(
-            id=row["id"],
+            id=int(row["id"]),
             email=row["email"],
             password_hash=row["password_hash"],
             role=row["role"],
@@ -29,7 +29,9 @@ class UserRepository:
             (user.email, user.password_hash, user.role, int(user.is_active)),
         )
         self._conn.commit()
-        return self.find_by_id(cursor.lastrowid)
+        result = self.find_by_id(cursor.lastrowid)
+        assert result is not None
+        return result
 
     def find_by_id(self, user_id: int) -> Optional[User]:
         row = self._conn.execute(

@@ -14,7 +14,7 @@ class SupplierRepository:
 
     def _row_to_supplier(self, row: sqlite3.Row) -> Supplier:
         return Supplier(
-            id=row["id"],
+            id=int(row["id"]),
             name=row["name"],
             contact=row["contact"],
             cnpj=row["cnpj"],
@@ -27,7 +27,9 @@ class SupplierRepository:
             (supplier.name, supplier.contact, supplier.cnpj),
         )
         self._conn.commit()
-        return self.find_by_id(cursor.lastrowid)
+        result = self.find_by_id(cursor.lastrowid)
+        assert result is not None
+        return result
 
     def find_by_id(self, supplier_id: int) -> Optional[Supplier]:
         row = self._conn.execute(

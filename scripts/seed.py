@@ -30,11 +30,20 @@ def seed():
     prod_repo = ProductRepository(conn)
 
     print("Populando categorias...")
-    epis     = cat_repo.save(Category(name="EPIs", description="Equipamentos de Proteção Individual"))
+    epis = cat_repo.save(Category(name="EPIs", description="Equipamentos de Proteção Individual"))
+    assert epis.id is not None
+
     ferramentas = cat_repo.save(Category(name="Ferramentas", description="Ferramentas manuais e elétricas"))
+    assert ferramentas.id is not None
+
     eletricos = cat_repo.save(Category(name="Materiais Elétricos", description="Cabos, disjuntores e conexões"))
+    assert eletricos.id is not None
+
     fixadores = cat_repo.save(Category(name="Fixadores", description="Parafusos, porcas e arruelas"))
-    lubrif   = cat_repo.save(Category(name="Lubrificantes", description="Óleos e graxas industriais"))
+    assert fixadores.id is not None
+
+    lubrif = cat_repo.save(Category(name="Lubrificantes", description="Óleos e graxas industriais"))
+    assert lubrif.id is not None
 
     print("Populando fornecedores...")
     segurança_es = sup_repo.save(Supplier(
@@ -42,16 +51,21 @@ def seed():
         contact="(27) 3322-4455",
         cnpj="12.345.678/0001-90",
     ))
+    assert segurança_es.id is not None
+
     ferragem_cariacica = sup_repo.save(Supplier(
         name="Ferragem Cariacica Ltda",
         contact="(27) 3336-7788",
         cnpj="98.765.432/0001-11",
     ))
+    assert ferragem_cariacica.id is not None
+
     eletro_vitoria = sup_repo.save(Supplier(
         name="Eletro Vitória Distribuidora",
         contact="(27) 3301-2233",
         cnpj="11.222.333/0001-44",
     ))
+    assert eletro_vitoria.id is not None
 
     print("Populando usuários...")
     user_repo.save(User(
@@ -76,10 +90,10 @@ def seed():
         Product(sku="EPI-003", name="Botina de Segurança Bico de Aço",
                 unit_price=189.90, quantity=15, minimum_stock=10,
                 category_id=epis.id, supplier_id=segurança_es.id),
-        Product(sku="FERR-001", name="Chave de Fenda Phillips 1/4\"",
+        Product(sku="FERR-001", name='Chave de Fenda Phillips 1/4"',
                 unit_price=18.90, quantity=5, minimum_stock=10,
                 category_id=ferramentas.id, supplier_id=ferragem_cariacica.id),
-        Product(sku="FERR-002", name="Alicate Universal 8\"",
+        Product(sku="FERR-002", name='Alicate Universal 8"',
                 unit_price=34.50, quantity=22, minimum_stock=8,
                 category_id=ferramentas.id, supplier_id=ferragem_cariacica.id),
         Product(sku="ELET-001", name="Cabo Flexível 2,5mm² (metro)",
@@ -99,7 +113,6 @@ def seed():
     print("\nSeed concluído.")
     print(f"  {len(produtos)} produtos cadastrados.")
 
-    # Exibir produtos abaixo do mínimo
     todos = prod_repo.find_all()
     criticos = [p for p in todos if p.is_below_minimum]
     if criticos:

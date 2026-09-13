@@ -14,15 +14,15 @@ class ProductRepository:
 
     def _row_to_product(self, row: sqlite3.Row) -> Product:
         return Product(
-            id=row["id"],
+            id=int(row["id"]),
             sku=row["sku"],
             name=row["name"],
             description=row["description"],
-            unit_price=row["unit_price"],
-            quantity=row["quantity"],
-            minimum_stock=row["minimum_stock"],
-            category_id=row["category_id"],
-            supplier_id=row["supplier_id"],
+            unit_price=float(row["unit_price"]),
+            quantity=int(row["quantity"]),
+            minimum_stock=int(row["minimum_stock"]),
+            category_id=int(row["category_id"]),
+            supplier_id=int(row["supplier_id"]),
             is_active=bool(row["is_active"]),
             created_at=datetime.fromisoformat(row["created_at"]),
             updated_at=datetime.fromisoformat(row["updated_at"]),
@@ -48,7 +48,9 @@ class ProductRepository:
             ),
         )
         self._conn.commit()
-        return self.find_by_id(cursor.lastrowid)
+        result = self.find_by_id(cursor.lastrowid)
+        assert result is not None
+        return result
 
     def find_by_id(self, product_id: int) -> Optional[Product]:
         row = self._conn.execute(
@@ -65,12 +67,7 @@ class ProductRepository:
         return self._row_to_product(row) if row else None
 
     def find_all(self, active_only: bool = True) -> List[Product]:
-        """
-        Retorna produtos ordenados por nome.
-
-        Args:
-            active_only: se True, retorna apenas produtos ativos.
-        """
+        """Retorna produtos ordenados por nome."""
         if active_only:
             rows = self._conn.execute(
                 "SELECT * FROM products WHERE is_active = 1 ORDER BY name"
@@ -85,7 +82,6 @@ class ProductRepository:
         """
         Atualiza apenas a quantidade do produto.
 
-        Usado pelo StockService durante movimentações.
         Não faz commit — a transação é gerenciada pelo Service.
         """
         self._conn.execute(

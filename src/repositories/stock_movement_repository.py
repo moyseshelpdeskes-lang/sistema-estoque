@@ -14,12 +14,12 @@ class StockMovementRepository:
 
     def _row_to_movement(self, row: sqlite3.Row) -> StockMovement:
         return StockMovement(
-            id=row["id"],
-            product_id=row["product_id"],
-            user_id=row["user_id"],
+            id=int(row["id"]),
+            product_id=int(row["product_id"]),
+            user_id=int(row["user_id"]),
             type=row["type"],
-            quantity=row["quantity"],
-            resulting_balance=row["resulting_balance"],
+            quantity=int(row["quantity"]),
+            resulting_balance=int(row["resulting_balance"]),
             reason=row["reason"],
             created_at=datetime.fromisoformat(row["created_at"]),
         )
@@ -44,7 +44,9 @@ class StockMovementRepository:
                 movement.reason,
             ),
         )
-        return self.find_by_id(cursor.lastrowid)
+        result = self.find_by_id(cursor.lastrowid)
+        assert result is not None
+        return result
 
     def find_by_id(self, movement_id: int) -> Optional[StockMovement]:
         row = self._conn.execute(

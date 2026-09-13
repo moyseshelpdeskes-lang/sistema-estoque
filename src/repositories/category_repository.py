@@ -20,7 +20,7 @@ class CategoryRepository:
     def _row_to_category(self, row: sqlite3.Row) -> Category:
         """Converte uma linha do banco em objeto Category."""
         return Category(
-            id=row["id"],
+            id=int(row["id"]),
             name=row["name"],
             description=row["description"],
             created_at=datetime.fromisoformat(row["created_at"]),
@@ -38,7 +38,9 @@ class CategoryRepository:
             (category.name, category.description),
         )
         self._conn.commit()
-        return self.find_by_id(cursor.lastrowid)
+        result = self.find_by_id(cursor.lastrowid)
+        assert result is not None
+        return result
 
     def find_by_id(self, category_id: int) -> Optional[Category]:
         """Busca categoria pelo ID. Retorna None se não encontrada."""
