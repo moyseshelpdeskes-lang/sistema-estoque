@@ -44,7 +44,9 @@ class StockMovementRepository:
                 movement.reason,
             ),
         )
-        result = self.find_by_id(cursor.lastrowid)
+        last_id = cursor.lastrowid
+        assert last_id is not None
+        result = self.find_by_id(last_id)
         assert result is not None
         return result
 
@@ -60,13 +62,13 @@ class StockMovementRepository:
         rows = self._conn.execute(
             """SELECT * FROM stock_movements
                WHERE product_id = ?
-               ORDER BY created_at DESC""",
+               ORDER BY created_at DESC, id DESC""",
             (product_id,),
         ).fetchall()
         return [self._row_to_movement(row) for row in rows]
 
     def find_all(self) -> List[StockMovement]:
         rows = self._conn.execute(
-            "SELECT * FROM stock_movements ORDER BY created_at DESC"
+            "SELECT * FROM stock_movements ORDER BY created_at DESC, id DESC"
         ).fetchall()
         return [self._row_to_movement(row) for row in rows]

@@ -29,7 +29,9 @@ class UserRepository:
             (user.email, user.password_hash, user.role, int(user.is_active)),
         )
         self._conn.commit()
-        result = self.find_by_id(cursor.lastrowid)
+        last_id = cursor.lastrowid
+        assert last_id is not None
+        result = self.find_by_id(last_id)
         assert result is not None
         return result
 
