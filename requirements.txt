@@ -1,16 +1,13 @@
-# Dependências do Sistema de Gerenciamento de Estoque
-# Para instalar: pip install -r requirements.txt
-
 # Fase 1-4 (MVP)
 # sem dependências externas ainda, apenas stdlib
 
-# Fase 5 (descomentar quando chegar lá)
-# pytest
-# pytest-cov
+# Fase 5
+pytest
+pytest-cov
 
-# Fase 6 (descomentar quando chegar lá)
-# fastapi
-# uvicorn[standard]
-# pydantic
-# python-jose[cryptography]
-# bcrypt
+# Fase 6
+fastapi
+uvicorn[standard]
+pydantic
+python-jose[cryptography]
+bcrypt

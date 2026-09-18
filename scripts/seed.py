@@ -10,6 +10,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from database.connection import get_connection, initialize_database
+from api.security import hash_password
 from models.category import Category
 from models.supplier import Supplier
 from models.user import User
@@ -22,7 +23,7 @@ from repositories.product_repository import ProductRepository
 
 def seed():
     conn = get_connection("estoque.db")
-    initialize_database(conn)
+    initialize_database(conn) 
 
     cat_repo = CategoryRepository(conn)
     sup_repo = SupplierRepository(conn)
@@ -70,12 +71,12 @@ def seed():
     print("Populando usuários...")
     user_repo.save(User(
         email="admin@logistica-es.com",
-        password_hash="$2b$12$placeholder_hash_admin",
+        password_hash=hash_password("Admin@2026"),
         role="admin",
     ))
     user_repo.save(User(
         email="almoxarife@logistica-es.com",
-        password_hash="$2b$12$placeholder_hash_func",
+        password_hash=hash_password("Funcionario@2026"),
         role="employee",
     ))
 
