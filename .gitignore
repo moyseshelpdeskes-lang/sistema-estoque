@@ -25,3 +25,8 @@ venv/
 # OS
 .DS_Store
 Thumbs.db
+
+# Pytest e cobertura
+.pytest_cache/
+htmlcov/
+.coverage
