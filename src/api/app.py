@@ -44,20 +44,3 @@ def health_check() -> dict:
     """Verifica se a API está no ar."""
     return {"status": "ok", "version": "0.2.0"}
 
-@app.get("/debug/db", tags=["Sistema"])
-def debug_db() -> dict:
-    """Testa a conexão com o banco de dados."""
-    try:
-        from database.connection import get_connection
-        import os
-        db_path = os.getenv("DATABASE_PATH", "estoque.db")
-        conn = get_connection(db_path)
-        row = conn.execute("SELECT COUNT(*) as total FROM users").fetchone()
-        conn.close()
-        return {
-            "status": "ok",
-            "db_path": db_path,
-            "users_count": row["total"],
-        }
-    except Exception as e:
-        return {"status": "error", "detail": str(e)}

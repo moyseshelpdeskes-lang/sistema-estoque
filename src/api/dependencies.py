@@ -59,12 +59,10 @@ async def get_current_user(
     try:
         user = UserRepository(conn).find_by_id(user_id)
     except Exception as e:
-        import traceback
-        tb = traceback.format_exc()
-        logger.error(f"Traceback completo:\n{tb}")
+        logger.error(f"Erro ao buscar usuário: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"{type(e).__name__}: {str(e)}"
+            detail="Erro interno ao autenticar."
         )
 
     if user is None or not user.is_active:
