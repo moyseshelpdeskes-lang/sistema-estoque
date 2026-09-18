@@ -1,13 +1,16 @@
 # Fase 1-4 (MVP)
 # sem dependências externas ainda, apenas stdlib
 
+# Dependências do Sistema de Gestão de Estoque
+# Para instalar: pip install -r requirements.txt
+
 # Fase 5
-pytest
-pytest-cov
+pytest==9.1.1
+pytest-cov==7.1.0
 
 # Fase 6
-fastapi
-uvicorn[standard]
-pydantic
-python-jose[cryptography]
-bcrypt
+fastapi==0.141.1
+uvicorn==0.53.0
+pydantic==2.13.5
+python-jose[cryptography]==3.5.0
+bcrypt==5.0.0
