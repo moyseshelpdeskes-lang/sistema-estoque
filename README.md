@@ -34,3 +34,20 @@ alertas automáticos de estoque crítico.
 - [Regras de negócio](docs/business-rules.md)
 - [Modelo de dados](docs/database.md)
 - [Decisões de arquitetura](docs/decisions/)
+
+## Utilização
+
+### API REST
+```bash
+python run_api.py
+# Acesse http://localhost:8000/docs
+```
+
+### CLI (linha de comando)
+```bash
+python src/main.py
+```
+
+> **Limitação conhecida da CLI:** o ID do operador está fixo em `OPERADOR_ID = 1`.
+> A CLI não possui tela de login — assume que o usuário com ID 1 está operando.
+> A autenticação completa está disponível apenas via API REST (Fase 6).
