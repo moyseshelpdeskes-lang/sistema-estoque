@@ -23,7 +23,7 @@ def get_connection(db_path: str = "estoque.db") -> sqlite3.Connection:
     Returns:
         Conexão SQLite pronta para uso.
     """
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect(db_path, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON")
     return conn
