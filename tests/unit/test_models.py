@@ -12,6 +12,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
 import unittest
+from typing import Any, Dict
 
 from utils.exceptions import ValidationError
 from models.category import Category
@@ -94,9 +95,9 @@ class TestUser(unittest.TestCase):
 
 class TestProduct(unittest.TestCase):
 
-    def _produto_valido(self, **kwargs):
-        """Retorna kwargs base para criação de produto válido."""
-        base = dict(
+    def _produto_valido(self, **kwargs: Any) -> Product:
+        """Retorna produto válido com possibilidade de sobrescrever campos."""
+        base: Dict[str, Any] = dict(
             sku="EPI-001",
             name="Capacete de Segurança",
             unit_price=45.90,
@@ -160,8 +161,9 @@ class TestProduct(unittest.TestCase):
 
 class TestStockMovement(unittest.TestCase):
 
-    def _movimento_valido(self, **kwargs):
-        base = dict(
+    def _movimento_valido(self, **kwargs: Any) -> StockMovement:
+        """Retorna movimentação válida com possibilidade de sobrescrever campos."""
+        base: Dict[str, Any] = dict(
             product_id=1,
             user_id=1,
             type="entry",
